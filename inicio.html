@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KIVA - Cuidado Capilar Natural</title>
+  
+  <!-- Estilos CSS -->
+  <link rel="stylesheet" href="style.css">
+  
+  <!-- Librería de iconos Lucide e integración con Mapa Leaflet -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+</head>
+<body>
+
+  <!-- Zona táctil para desplegar la barra lateral -->
+  <div class="hover-zone"></div>
+
+  <!-- Sidebar flotante interactivo (Horarios e Info) -->
+  <aside class="sidebar" id="sidebar">
+    <div class="logo-area">
+      <img src="imagenes/logo.jpg" alt="Logo KIVA" class="sidebar-logo-img" onerror="this.src='https://via.placeholder.com/80/f3e8ff/a855f7?text=KIVA'">
+      <div class="brand">KIVA</div>
+      <div class="tagline">"Florece la belleza natural de tu cabello"</div>
+    </div>
+    
+    <div class="schedule-box">
+      <h4><i data-lucide="clock"></i> Horarios de Atención</h4>
+      <ul>
+        <li><span>Lunes - Viernes:</span> <span>8:00 AM - 7:00 PM</span></li>
+        <li><span>Sábados:</span> <span>9:00 AM - 5:00 PM</span></li>
+        <li><span>Domingos:</span> <span>Cerrado</span></li>
+      </ul>
+    </div>
+  </aside>
+
+  <!-- Contenedor Principal -->
+  <div class="main-layout">
+    
+    <!-- Encabezado y Navegación -->
+    <header class="header">
+      <div class="logo-group">
+        <img src="imagenes/logo.jpg" alt="Logo KIVA" class="header-logo-img" onerror="this.src='https://via.placeholder.com/40/f3e8ff/a855f7?text=K'">
+        <div class="logo">KIVA</div>
+      </div>
+      
+      <nav class="nav-tabs">
+        <button class="tab-btn active" onclick="switchTab('inicio')">
+          <i data-lucide="home"></i> Inicio
+        </button>
+        <button class="tab-btn" onclick="switchTab('conocenos')">
+          <i data-lucide="sparkles"></i> Conócenos
+        </button>
+        <button class="tab-btn" onclick="switchTab('equipo')">
+          <i data-lucide="users"></i> Dueños
+        </button>
+        <button class="tab-btn" onclick="switchTab('productos')">
+          <i data-lucide="shopping-bag"></i> Productos (7)
+        </button>
+        <button class="tab-btn" onclick="switchTab('seguimiento')">
+          <i data-lucide="map-pin"></i> Pedidos y Ruta
+        </button>
+      </nav>
+
+      <div class="cart-trigger" onclick="switchTab('seguimiento')" title="Ver Carrito">
+        <i data-lucide="shopping-cart"></i>
+        <span class="cart-badge" id="cartBadge">0</span>
+      </div>
+    </header>
+
+    <!-- Pestaña 1: INICIO -->
+    <section id="tab-inicio" class="tab-content active">
+      <div class="hero">
+        <div class="hero-text">
+          <div class="hero-main-logo-container">
+            <img src="imagenes/logo.jpg" alt="Logo KIVA Grande" class="hero-main-logo" onerror="this.src='https://via.placeholder.com/120/f3e8ff/a855f7?text=KIVA'">
+          </div>
+          <span class="badge-pill"><i data-lucide="leaf"></i> 100% Botánico y Artesanal</span>
+          <h2>Cuidado capilar natural e interactivo</h2>
+          <p>Fórmulas magistrales elaboradas con botánica pura para transformar la salud de tu cabello desde la raíz.</p>
+          <p class="hint-text"><i data-lucide="arrow-left"></i> Pasa el ratón por el borde izquierdo de la pantalla para ver horarios y la frase KIVA.</p>
+          <button class="btn" onclick="switchTab('productos')">Explorar Catálogo</button>
+        </div>
+        <div class="hero-img-container">
+          <img src="imagenes/kivaaa.jpg" alt="KIVA Productos" class="hero-img" onerror="this.src='https://images.unsplash.com/photo-1535585209827-a15fcdbc4c2d?auto=format&fit=crop&w=600&q=80'">
+        </div>
+      </div>
+    </section>
+
+    <!-- Pestaña 2: CONÓCENOS -->
+    <section id="tab-conocenos" class="tab-content">
+      <div class="about-card">
+        <h2>Sobre KIVA</h2>
+        <p>Nuestra empresa recibe el nombre KIVA gracias a las iniciales de los participantes, además de eso, en su origen irlandés significa sanación y purificación, concepto directamente relacionado con nuestra idea de proyecto</p>
+        
+        <div class="features-grid">
+          <div class="feature-box">
+            <i data-lucide="leaf"></i>
+            <h3>100% Orgánico</h3>
+            <p>Extractos naturales, aceites esenciales y botánica viva.</p>
+          </div>
+          <div class="feature-box">
+            <i data-lucide="heart"></i>
+            <h3>Cruelty Free</h3>
+            <p>Respetamos la naturaleza en cada etapa del proceso.</p>
+          </div>
+          <div class="feature-box">
+            <i data-lucide="truck"></i>
+            <h3>Envío con Rastreo</h3>
+            <p>Sigue la ruta exacta de tu paquete en Yarumal en tiempo real.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Pestaña 3: DUEÑOS / EQUIPO -->
+    <section id="tab-equipo" class="tab-content">
+      <div class="section-title-center">
+        <h2>Conoce a los Fundadores</h2>
+        <p>El equipo detrás de cada fórmula y entrega de KIVA</p>
+      </div>
+
+      <div class="team-grid">
+        <div class="team-card">
+          <div class="team-img-container">
+            <img src="imagenes/alejo.jpg" alt="Alejandro Henao" onerror="this.src='https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80'">
+          </div>
+          <div class="team-info">
+            <h3>Alejandro Henao</h3>
+            <span class="team-role">Operario principal</span>
+            <p>Apasionad por la cosmética natural y botánica. Encargado de crear,diseñar y perfeccionar cada fórmula capilar.</p>
+          </div>
+        </div>
+
+        <div class="team-card">
+          <div class="team-img-container">
+            <img src="imagenes/karen.jpg" alt="Karen Madrigal" onerror="this.src='https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&q=80'">
+          </div>
+          <div class="team-info">
+            <h3>Karen Madrigal</h3>
+            <span class="team-role">Dueña del proyecto</span>
+            <p>Especialista en logística y calidad. Asegura que cada producto llegue en perfectas condiciones a tus manos.</p>
+          </div>
+        </div>
+
+        <div class="team-card">
+          <div class="team-img-container">
+            <img src="imagenes/isa.jpg" alt="Isabella Grisales" onerror="this.src='https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=400&q=80'">
+          </div>
+          <div class="team-info">
+            <h3>Isabella Grisales</h3>
+            <span class="team-role">Marketing & Experiencia al Cliente</span>
+            <p>Encargada de conectar la marca con nuestra comunidad y guiarte en tu rutina ideal de cuidado capilar.</p>
+          </div>
+        </div>
+
+        <div class="team-card">
+          <div class="team-img-container">
+            <img src="imagenes/vero.jpg" alt="Veronica Ramirez" onerror="this.src='https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=400&q=80'">
+          </div>
+          <div class="team-info">
+            <h3>Veronica Ramirez</h3>
+            <span class="team-role">Operaria Segundaria </span>
+            <p>Vela por procesos ecológicos, empaques amigables con el planeta y la selección de ingredientes sustentables.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Pestaña 4: PRODUCTOS -->
+    <section id="tab-productos" class="tab-content">
+      <div class="products-header">
+        <h2>Nuestros 7 Productos Exclusivos</h2>
+        <div class="filters">
+          <button class="filter-btn active" onclick="filterProducts('todos', event)">Todos</button>
+          <button class="filter-btn" onclick="filterProducts('shampoo', event)">Shampoos</button>
+          <button class="filter-btn" onclick="filterProducts('acondicionador', event)">Acondicionadores</button>
+          <button class="filter-btn" onclick="filterProducts('tonico', event)">Tónicos</button>
+        </div>
+      </div>
+
+      <div class="products-grid" id="productsGrid">
+        
+        <!-- Producto 1 -->
+        <div class="product-card" data-categoria="shampoo">
+          <div class="product-img-container">
+            <img src="imagenes/sh romero.jpg" alt="Shampoo KIVA De Romero" class="product-img" onerror="this.src='https://images.unsplash.com/photo-1535585209827-a15fcdbc4c2d?auto=format&fit=crop&w=400&q=80'">
+            <span class="product-tag">SHAMPOO KIVA DE ROMERO</span>
+          </div>
+          <div class="product-info">
+            <h3>Shampoo KIVA De Romero</h3>
+            <p>El shampoo de romero está elaborado con cristal de sábila, romero, jabón de glicerina y esencia de menta. Ayuda a limpiar el cabello, aportar suavidad y mantenerlo acondicionado. La sábila contribuye a la hidratación, el romero se utiliza en el cuidado capilar y la menta proporciona una sensación refrescante</p>
+            <div class="product-bottom">
+              <span class="price">$21.000</span>
+              <button class="btn-sm" onclick="addToCart(1, 'Shampoo KIVA De Romero', 21000)">
+                <i data-lucide="plus"></i> Agregar
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Producto 2 -->
+        <div class="product-card" data-categoria="shampoo">
+          <div class="product-img-container">
+            <img src="imagenes/sh de cebolla.jpg" alt="Shampoo KIVA De Cebolla" class="product-img" onerror="this.src='https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&w=400&q=80'">
+            <span class="product-tag">SHAMPOO DE CEBOLLA</span>
+          </div>
+          <div class="product-info">
+            <h3>Shampoo KIVA De Cebolla</h3>
+            <p>El shampoo de cebolla contiene cebolla, romero, jabón de glicerina y agua. Ayuda a limpiar el cabello y mantenerlo suave. La cebolla y el romero aportan componentes vegetales, mientras que la glicerina ayuda a conservar la humedad del cabello.</p>
+            <div class="product-bottom">
+              <span class="price">$21.000</span>
+              <button class="btn-sm" onclick="addToCart(2, 'Shampoo KIVA De Cebolla', 21000)">
+                <i data-lucide="plus"></i> Agregar
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Producto 3 -->
+        <div class="product-card" data-categoria="shampoo">
+          <div class="product-img-container">
+            <img src="imagenes/sh de manzanilla.jpg" alt="Shampoo Kiva De Manzanilla" class="product-img" onerror="this.src='https://images.unsplash.com/photo-1526947425960-945c6e72858f?auto=format&fit=crop&w=400&q=80'">
+            <span class="product-tag">SHAMPOO DE MANZANILLA</span>
+          </div>
+          <div class="product-info">
+            <h3>Shampoo Kiva De Manzanilla</h3>
+            <p>El shampoo de manzanilla está elaborado con manzanilla, canela, jengibre, jabón de glicerina y agua. Ayuda a limpiar el cabello y dejarlo suave. La manzanilla se utiliza en productos capilares para acondicionar el cabello, mientras que la glicerina contribuye a mantener la humedad.</p>
+            <div class="product-bottom">
+              <span class="price">$23.000</span>
+              <button class="btn-sm" onclick="addToCart(3, 'Shampoo Kiva De Manzanilla', 23000)">
+                <i data-lucide="plus"></i> Agregar
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Producto 4 -->
+        <div class="product-card" data-categoria="acondicionador">
+          <div class="product-img-container">
+            <img src="imagenes/acon de arroz.jpg" alt="Acondicionador KIVA De Arroz" class="product-img" onerror="this.src='https://images.unsplash.com/photo-1519735777090-ec97162dc266?auto=format&fit=crop&w=400&q=80'">
+            <span class="product-tag">Acondicionador De Arroz</span>
+          </div>
+          <div class="product-info">
+            <h3>Acondicionador KIVA De Arroz</h3>
+            <p>El acondicionador de arroz está elaborado con arroz, agua, maicena, gel de sábila, azúcar y vitaminas o aceites añadidos. Ayuda a mejorar la suavidad y la apariencia del cabello. El arroz aporta componentes vegetales, la sábila contribuye al acondicionamiento y la maicena ayuda a dar consistencia al producto.</p>
+            <div class="product-bottom">
+              <span class="price">$16.000</span>
+              <button class="btn-sm" onclick="addToCart(4, 'Acondicionador KIVA De Arroz', 16000)">
+                <i data-lucide="plus"></i> Agregar
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Producto 5 -->
+        <div class="product-card" data-categoria="acondicionador">
+          <div class="product-img-container">
+            <img src="imagenes/acon de avena.jpg" alt="Acondicionador Kiva De Avena" class="product-img" onerror="this.src='https://images.unsplash.com/photo-1608248597261-e4d0947c653a?auto=format&fit=crop&w=400&q=80'">
+            <span class="product-tag">Acondicionador De Avena</span>
+          </div>
+          <div class="product-info">
+            <h3>Acondicionador Kiva De Avena</h3>
+            <p>El acondicionador de avena contiene avena en hojuelas, cristal de sábila, aceite de coco y agua. Ayuda a suavizar el cabello, facilitar el desenredo y mejorar su apariencia. La avena contribuye al acondicionamiento, la sábila aporta hidratación y el aceite de coco ayuda a reducir la pérdida de proteínas de la fibra capilar.</p>
+            <div class="product-bottom">
+              <span class="price">$16.000</span>
+              <button class="btn-sm" onclick="addToCart(5, 'Acondicionador Kiva De Avena', 16000)">
+                <i data-lucide="plus"></i> Agregar
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Producto 6 -->
+        <div class="product-card" data-categoria="tonico">
+          <div class="product-img-container">
+            <img src="imagenes/tonico de aguacate.jpg" alt="Tonico Kiva De Aguacate" class="product-img" onerror="this.src='https://images.unsplash.com/photo-1527799820374-dcf8d9d4a388?auto=format&fit=crop&w=400&q=80'">
+            <span class="product-tag">Tonico De Aguacate</span>
+          </div>
+          <div class="product-info">
+            <h3>Tonico Kiva De Aguacate</h3>
+            <p>El tónico-tratamiento de aguacate contiene semilla de aguacate, agua, maicena y aceite de oliva. Está diseñado para acondicionar el cabello y mejorar su apariencia. El aceite de oliva ayuda a suavizar la fibra capilar, mientras que la maicena aporta consistencia al producto.</p>
+            <div class="product-bottom">
+              <span class="price">$24.000</span>
+              <button class="btn-sm" onclick="addToCart(6, 'Tonico Kiva De Aguacate', 24000)">
+                <i data-lucide="plus"></i> Agregar
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Producto 7 -->
+        <div class="product-card" data-categoria="tonico">
+          <div class="product-img-container">
+            <img src="imagenes/tonico de romero.jpg" alt="Tonico Kiva De Romero" class="product-img" onerror="this.src='https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?auto=format&fit=crop&w=400&q=80'">
+            <span class="product-tag">Tonico Kiva De Romero</span>
+          </div>
+          <div class="product-info">
+            <h3>Tonico Kiva De Romero</h3>
+            <p>El tónico-tratamiento de romero contiene romero, cebolla, canela y agua. Se utiliza como complemento de la rutina de cuidado capilar. El romero aporta componentes vegetales empleados en cosmética capilar, mientras que la cebolla y la canela forman parte de la preparación. No se ha demostrado que esta combinación haga crecer el cabello o detenga su caída.</p>
+            <div class="product-bottom">
+              <span class="price">$21.000</span>
+              <button class="btn-sm" onclick="addToCart(7, 'Tonico Kiva De Romero', 21000)">
+                <i data-lucide="plus"></i> Agregar
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Pestaña 5: SEGUIMIENTO, DATOS Y MAPA EN VIVO -->
+    <section id="tab-seguimiento" class="tab-content">
+      <div class="tracking-container">
+        <div class="tracking-info">
+          <h2>Realizar Pedido & Ruta en Vivo</h2>
+          <p>Ingresa tus datos y pago para iniciar el envío. Al finalizar la ruta, KIVA te enviará el mensaje de confirmación por WhatsApp.</p>
+          
+          <div class="order-summary" id="orderSummary">
+            <h3>Tu Carrito</h3>
+            <div id="cartItemsList">No hay productos seleccionados.</div>
+            <hr class="summary-divider">
+            <div class="total-line">
+              <strong>Total:</strong> <span id="cartTotal">$0</span>
+            </div>
+          </div>
+
+          <!-- Formulario de Pedido -->
+          <form id="orderForm" onsubmit="iniciarRuta(event)">
+            <div class="form-grid">
+              <div class="form-group">
+                <label>Nombre Completo</label>
+                <input type="text" id="clientName" placeholder="Tu Nombre" required>
+              </div>
+              <div class="form-group">
+                <label>Teléfono / Celular</label>
+                <input type="tel" id="clientPhone" placeholder="3001234567" required>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>Dirección en Yarumal</label>
+              <input type="text" id="clientAddress" placeholder="Ej: Calle 19 # 20-10" required>
+            </div>
+
+            <div class="form-group">
+              <label>Notas adicionales (Opcional)</label>
+              <input type="text" id="clientNotes" placeholder="Ej: Casa color blanca">
+            </div>
+
+            <div class="payment-box-before">
+              <h4><i data-lucide="credit-card"></i> Método de Pago</h4>
+              <div class="payment-options">
+                <label class="payment-option">
+                  <input type="radio" name="formaPago" value="Efectivo contra entrega" checked>
+                  <span class="payment-label-content">
+                    <i data-lucide="banknote"></i>
+                    <div>
+                      <strong>Efectivo contra entrega</strong>
+                      <small>Pagas al recibir</small>
+                    </div>
+                  </span>
+                </label>
+
+                <label class="payment-option">
+                  <input type="radio" name="formaPago" value="Nequi / Daviplata">
+                  <span class="payment-label-content">
+                    <i data-lucide="smartphone"></i>
+                    <div>
+                      <strong>Nequi / Daviplata</strong>
+                      <small>Transferencia directa</small>
+                    </div>
+                  </span>
+                </label>
+
+                <label class="payment-option">
+                  <input type="radio" name="formaPago" value="Tarjeta">
+                  <span class="payment-label-content">
+                    <i data-lucide="credit-card"></i>
+                    <div>
+                      <strong>Tarjeta (Datáfono)</strong>
+                      <small>Pago con tarjeta</small>
+                    </div>
+                  </span>
+                </label>
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-block">Confirmar Pedido y Ver Ruta</button>
+          </form>
+
+          <!-- Estado y Barra de Progreso del Envío -->
+          <div class="eta-box" id="etaBox" style="display:none;">
+            <h3><i data-lucide="navigation"></i> Estado del Envío en Yarumal</h3>
+            <p id="statusText">En camino hacia tu ubicación... 🛵</p>
+            <div class="eta-time">Tiempo estimado: <span id="etaTimer">15</span> seg</div>
+            <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+          </div>
+
+          <!-- Botón de WhatsApp que se activa al terminar la ruta -->
+          <div class="whatsapp-alert-box" id="whatsappAlertBox" style="display:none;">
+            <i data-lucide="check-circle" style="color: #10b981; width: 36px; height: 36px;"></i>
+            <h3>¡Pedido Entregado con Éxito!</h3>
+            <p>Haz clic abajo para que KIVA te envíe el mensaje oficial de confirmación por WhatsApp:</p>
+            <a href="#" id="whatsappBtn" class="btn btn-whatsapp-block" target="_blank">
+              <i data-lucide="send"></i> Recibir Mensaje de KIVA por WhatsApp 📲
+            </a>
+          </div>
+
+        </div>
+
+        <!-- Contenedor del Mapa Estético -->
+        <div class="map-container-aesthetic">
+          <div class="map-header-bar">
+            <i data-lucide="map-pin"></i> <span>Ruta en Vivo - Yarumal, Antioquia</span>
+          </div>
+          <div id="map"></div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- Script Lógica Corregida -->
+  <script>
+    let carrito = {};
+    let map, markerTienda, markerRepartidor, polylineRuta;
+    const COORD_YARUMAL_SEDE = [6.9632, -75.4172];
+
+    document.addEventListener("DOMContentLoaded", () => {
+      lucide.createIcons();
+      initMap();
+      
+      const sidebar = document.getElementById('sidebar');
+      const hoverZone = document.querySelector('.hover-zone');
+      
+      if (hoverZone && sidebar) {
+        hoverZone.addEventListener('mouseenter', () => sidebar.classList.add('open'));
+        sidebar.addEventListener('mouseleave', () => sidebar.classList.remove('open'));
+      }
+    });
+
+    // Función de cambio de pestaña 100% garantizada
+    function switchTab(tabId) {
+      // Ocultar todas las pestañas
+      document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+      
+      // Quitar estilo activo de los botones de navegación
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      
+      // Mostrar la pestaña seleccionada
+      const targetTab = document.getElementById(`tab-${tabId}`);
+      if (targetTab) {
+        targetTab.classList.add('active');
+      }
+
+      // Activar el botón correspondiente
+      const buttons = document.querySelectorAll('.tab-btn');
+      buttons.forEach(btn => {
+        if (btn.getAttribute('onclick') && btn.getAttribute('onclick').includes(tabId)) {
+          btn.classList.add('active');
+        }
+      });
+
+      // Si cambia a la pestaña de mapa, recalcular tamaño
+      if (tabId === 'seguimiento' && map) {
+        setTimeout(() => { map.invalidateSize(); }, 300);
+      }
+    }
+
+    function filterProducts(cat, event) {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      if (event && event.currentTarget) {
+        event.currentTarget.classList.add('active');
+      }
+      
+      const tarjetas = document.querySelectorAll('.product-card');
+      tarjetas.forEach(card => {
+        if (cat === 'todos' || card.getAttribute('data-categoria') === cat) {
+          card.style.display = 'block';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+
+    function addToCart(id, nombre, precio) {
+      if (!carrito[id]) {
+        carrito[id] = { nombre: nombre, precio: precio, cantidad: 0 };
+      }
+      carrito[id].cantidad++;
+      updateCartUI();
+    }
+
+    function removeFromCart(id) {
+      if (carrito[id]) {
+        carrito[id].cantidad--;
+        if (carrito[id].cantidad <= 0) {
+          delete carrito[id];
+        }
+      }
+      updateCartUI();
+    }
+
+    function updateCartUI() {
+      const count = Object.values(carrito).reduce((a, b) => a + b.cantidad, 0);
+      document.getElementById('cartBadge').innerText = count;
+
+      let total = 0;
+      let html = '';
+      
+      for (let id in carrito) {
+        const item = carrito[id];
+        const subtotal = item.precio * item.cantidad;
+        total += subtotal;
+        html += `<div class="cart-item">
+          <div class="cart-item-details">
+            <span>${item.nombre} (x${item.cantidad})</span>
+            <span class="cart-item-price">$${subtotal.toLocaleString('es-CO')}</span>
+          </div>
+          <button class="btn-remove-item" onclick="removeFromCart(${id})" title="Quitar">
+            <i data-lucide="trash-2"></i>
+          </button>
+        </div>`;
+      }
+
+      document.getElementById('cartItemsList').innerHTML = html || 'No hay productos seleccionados.';
+      document.getElementById('cartTotal').innerText = `$${total.toLocaleString('es-CO')}`;
+      lucide.createIcons();
+    }
+
+    function initMap() {
+      map = L.map('map').setView(COORD_YARUMAL_SEDE, 15);
+
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap'
+      }).addTo(map);
+
+      markerTienda = L.marker(COORD_YARUMAL_SEDE).addTo(map)
+        .bindPopup('<b>Tienda KIVA Yarumal</b><br>Sede Principal - Parque Epifanio Mejía').openPopup();
+    }
+
+    function iniciarRuta(e) {
+      e.preventDefault();
+      if (Object.keys(carrito).length === 0) {
+        alert('Por favor agrega al menos un producto al carrito.');
+        return;
+      }
+
+      const nombre = document.getElementById('clientName').value;
+      const telefono = document.getElementById('clientPhone').value;
+      const direccion = document.getElementById('clientAddress').value;
+      const notas = document.getElementById('clientNotes').value || 'Ninguna';
+      const metodoPago = document.querySelector('input[name="formaPago"]:checked').value;
+
+      let detalleProductos = '';
+      let total = 0;
+
+      for (let id in carrito) {
+        const item = carrito[id];
+        const subtotal = item.precio * item.cantidad;
+        total += subtotal;
+        detalleProductos += `- ${item.nombre} (x${item.cantidad}) : $${subtotal.toLocaleString('es-CO')}\n`;
+      }
+
+      document.getElementById('orderForm').style.display = 'none';
+
+      const etaBox = document.getElementById('etaBox');
+      const etaTimer = document.getElementById('etaTimer');
+      const statusText = document.getElementById('statusText');
+      const progressFill = document.getElementById('progressFill');
+
+      etaBox.style.display = 'block';
+      statusText.innerText = 'En camino hacia tu ubicación en Yarumal... 🛵';
+
+      const latDestino = COORD_YARUMAL_SEDE[0] + (Math.random() * 0.008 - 0.004);
+      const lngDestino = COORD_YARUMAL_SEDE[1] + (Math.random() * 0.008 - 0.004);
+      const destino = [latDestino, lngDestino];
+
+      if (polylineRuta) map.removeLayer(polylineRuta);
+      if (markerRepartidor) map.removeLayer(markerRepartidor);
+
+      polylineRuta = L.polyline([COORD_YARUMAL_SEDE, destino], { color: '#ec4899', weight: 5, dashArray: '8, 8' }).addTo(map);
+      map.fitBounds(polylineRuta.getBounds(), { padding: [50, 50] });
+
+      markerRepartidor = L.marker(COORD_YARUMAL_SEDE).addTo(map)
+        .bindPopup(`<b>Domiciliario KIVA</b><br>Entregando a: ${nombre}`).openPopup();
+
+      let pasos = 100;
+      let pasoActual = 0;
+      let tiempoRestante = 15;
+
+      const interval = setInterval(() => {
+        pasoActual++;
+        const lat = COORD_YARUMAL_SEDE[0] + (destino[0] - COORD_YARUMAL_SEDE[0]) * (pasoActual / pasos);
+        const lng = COORD_YARUMAL_SEDE[1] + (destino[1] - COORD_YARUMAL_SEDE[1]) * (pasoActual / pasos);
+        
+        markerRepartidor.setLatLng([lat, lng]);
+        progressFill.style.width = `${pasoActual}%`;
+        
+        if (pasoActual % 7 === 0 && tiempoRestante > 0) {
+          tiempoRestante--;
+          etaTimer.innerText = tiempoRestante;
+        }
+
+        if (pasoActual >= pasos) {
+          clearInterval(interval);
+          statusText.innerText = '¡Tu pedido KIVA ha llegado a su destino! 🎉';
+          statusText.style.color = '#059669';
+          markerRepartidor.bindPopup(`<b>¡Pedido Entregado!</b><br>En ${direccion}`).openPopup();
+
+          const mensajeKiva = `¡Hola ${nombre}! 🌿 Desde *KIVA Cuidado Capilar* te confirmamos que tu pedido ha sido entregado exitosamente en Yarumal 📦✨.
+          
+*Detalles de tu compra:*
+${detalleProductos}
+*Total pagado:* $${total.toLocaleString('es-CO')} (${metodoPago})
+*Dirección de entrega:* ${direccion}
+
+¡Esperamos que disfrutes tu tratamiento natural! Si tienes alguna duda, escríbenos por aquí. ¡Gracias por confiar en KIVA! 💚`;
+
+          const urlWpp = `https://api.whatsapp.com/send?phone=57${telefono}&text=${encodeURIComponent(mensajeKiva)}`;
+          document.getElementById('whatsappBtn').setAttribute('href', urlWpp);
+          document.getElementById('whatsappAlertBox').style.display = 'block';
+          lucide.createIcons();
+        }
+      }, 120);
+    }
+  </script>
+</body>
+</html>
